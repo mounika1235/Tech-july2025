@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>To-Do Form Object Example</title>
+</head>
+<body>
+
+  <form id="todoForm">
+    <label>Description: <input type="text" id="description" required></label><br><br>
+    <label>Target Time & Date: <input type="datetime-local" id="targetTime" required></label><br><br>
+    <label>Status:
+      <select id="status">
+        <option value="Pending">Pending</option>
+        <option value="In Progress">In Progress</option>
+        <option value="Completed">Completed</option>
+      </select>
+    </label><br><br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <br>
+  <table border="1" id="todoTable">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Description</th>
+        <th>Target Time</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+
+  <script>
+    var todoId = 1;
+
+    document.getElementById("todoForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      desc = document.getElementById("description").value;
+      target = document.getElementById("targetTime").value;
+      status = document.getElementById("status").value;
+
+       todoItem = {
+        id: todoId,
+        description: desc,
+        targetTime: new Date(target).toISOString(),
+        status: status
+      };
+
+      console.log("To-Do Object:", todoItem);
+
+      tableBody = document.getElementById("todoTable").getElementsByTagName("tbody")[0];
+      newRow = tableBody.insertRow();
+
+      newRow.insertCell(0).textContent = todoItem.id;
+      newRow.insertCell(1).textContent = todoItem.description;
+      newRow.insertCell(2).textContent = new Date(todoItem.targetTime).toLocaleString();
+      newRow.insertCell(3).textContent = todoItem.status;
+
+      todoId++;
+      document.getElementById("todoForm").reset();
+    });
+  </script>
+
+</body>
+</html>
