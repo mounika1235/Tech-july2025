@@ -1,0 +1,123 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>To-Do List</title>
+  <style>
+  body {
+    font-family: Arial, sans-serif;
+  }
+  .form-container {
+    max-width: 400px;
+    margin: 20px auto;
+  }
+  .form-group {
+    margin-bottom: 10px;
+  }
+  label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+  }
+  input, select, button {
+    width: 100%;
+    padding: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+  button {
+    background: #fff;
+    border: 1px solid #999;
+    cursor: pointer;
+  }
+  table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+  }
+  th, td {
+    border: 1px solid #ccc;
+    padding: 6px;
+    text-align: center;
+  }
+  th {
+    background: #f2f2f2;
+  }
+</style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h3>To-Do Form</h3>
+    <form id="todoForm">
+      <div class="form-group">
+        <label for="todoDate">Date:</label>
+        <input type="date" id="todoDate" required>
+      </div>
+
+      <div class="form-group">
+        <label for="description">ToDo:</label>
+        <input type="text" id="description" required>
+      </div>
+
+      <div class="form-group">
+        <label for="targetTime">Target Date & Time:</label>
+        <input type="datetime-local" id="targetTime" required>
+      </div>
+
+      <div class="form-group">
+        <label for="status">Status:</label>
+        <select id="status" disabled>
+          <option value="Pending" selected>Pending</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+        </select>
+        <button type="button" id="toggleStatus">Enable Status</button>
+      </div>
+
+      <div class="form-group">
+        <button type="submit">SUBMIT</button>
+      </div>
+    </form>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>ToDo Desc</th>
+        <th>Target Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="todoTableBody"></tbody>
+  </table>
+
+  <script>
+    var todoId = 1;
+    // Toggle Status Dropdown in form
+    document.getElementById("toggleStatus").addEventListener("click", function () {
+      const status = document.getElementById("status");
+      status.disabled = !status.disabled;
+      this.textContent = status.disabled ? "Enable Status" : "Disable Status";
+    });
+    // Submit form
+    document.getElementById("todoForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const desc = document.getElementById("description").value;
+      const target = document.getElementById("targetTime").value;
+      const status = document.getElementById("status").value;
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${todoId++}</td>
+        <td>${desc}</td>
+        <td>${new Date(target).toLocaleString()}</td>
+        <td>${status}</td>`;
+      document.getElementById("todoTableBody").appendChild(row);
+      document.getElementById("todoForm").reset();
+      document.getElementById("status").disabled = true;
+      document.getElementById("toggleStatus").textContent = "Enable Status";
+    });
+  </script>
+</body>
+</html>
