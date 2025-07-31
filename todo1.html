@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>To-Do Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .form-container {
+      max-width: 400px;
+      margin: auto;
+    }
+    .form-group {
+      margin-bottom: 10px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 6px;
+      font-size: 14px;
+    }
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 6px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Add To-Do Item</h2>
+    <form id="todoForm">
+      <div class="form-group">
+        <label for="description">Description:</label>
+        <input type="text" id="description" required>
+      </div>
+      <div class="form-group">
+        <label for="targetTime">Target Time & Date:</label>
+        <input type="datetime-local" id="targetTime" required>
+      </div>
+      <div class="form-group">
+        <label for="status">Status:</label>
+        <select id="status">
+          <option value="Pending" selected>Pending</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Completed">Completed</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <button type="submit">Submit</button>
+      </div>
+    </form>
+  </div>
+
+  <div class="form-container">
+    <h3>To-Do Items Table</h3>
+    <table id="todoTable">
+      <thead>
+        <tr>
+          <th>To-Do ID</th>
+          <th>Description</th>
+          <th>Target Time & Date</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Items will be added here -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    var todoIdCounter = 1; // Initialize To-Do ID counter
+
+    document.getElementById("todoForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const desc = document.getElementById("description").value;
+      const target = document.getElementById("targetTime").value;
+      const status = document.getElementById("status").value;
+
+      const table = document.getElementById("todoTable").getElementsByTagName("tbody")[0];
+      const newRow = table.insertRow();
+
+      // Add ID cell
+      newRow.insertCell(0).textContent = todoIdCounter++;
+
+      newRow.insertCell(1).textContent = desc;
+      newRow.insertCell(2).textContent = new Date(target).toLocaleString();
+      newRow.insertCell(3).textContent = status;
+      datacell.tesxtContent=newDate(date).toLocalDateString();
+      descCell.textContent=desc;
+      targetCell.textContent=newDate(target).toLocalDateString();
+    const statusselect=document.createElement("select");
+    statusSelect.className="status-select";
+    const statues=["pending","in-progress","completed"];
+    statuses.foreach(optionText=>{const option=document.createElement("option");
+        option.value=optionText;
+        option.text=optionText;
+        if(optionText===status) option.selected=true;
+        statusSelect.appendChild(option);
+    });
+    statusCell.appendChild(statusSelect);
+      document.getElementById("todoForm").reset();
+    });
+  </script>
+</body>
+</html>
