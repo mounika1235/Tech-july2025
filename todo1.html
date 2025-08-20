@@ -1,118 +1,115 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>To-Do Form</title>
+  <title>To-Do List</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-    .form-container {
-      max-width: 400px;
-      margin: auto;
-    }
-    .form-group {
-      margin-bottom: 10px;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-    }
-    input, select, button {
-      width: 100%;
-      padding: 6px;
-      font-size: 14px;
-    }
-    table {
-      width: 100%;
-      margin-top: 20px;
+    table, th, td {
+      border: 1px solid black;
       border-collapse: collapse;
-    }
-    th, td {
-      border: 1px solid #ccc;
       padding: 6px;
-      text-align: center;
+    }
+    input, select {
+      margin: 5px;
+      padding: 5px;
     }
   </style>
 </head>
 <body>
-  <div class="form-container">
-    <h2>Add To-Do Item</h2>
-    <form id="todoForm">
-      <div class="form-group">
-        <label for="description">Description:</label>
-        <input type="text" id="description" required>
-      </div>
-      <div class="form-group">
-        <label for="targetTime">Target Time & Date:</label>
-        <input type="datetime-local" id="targetTime" required>
-      </div>
-      <div class="form-group">
-        <label for="status">Status:</label>
-        <select id="status">
-          <option value="Pending" selected>Pending</option>
-          <option value="In Progress">In Progress</option>
-          <option value="Completed">Completed</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <button type="submit">Submit</button>
-      </div>
-    </form>
-  </div>
 
-  <div class="form-container">
-    <h3>To-Do Items Table</h3>
-    <table id="todoTable">
-      <thead>
-        <tr>
-          <th>To-Do ID</th>
-          <th>Description</th>
-          <th>Target Time & Date</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Items will be added here -->
-      </tbody>
-    </table>
-  </div>
+  <h2>To-Do List</h2>
+
+  <form id="todoForm">
+    Date: <input type="date" id="date" required><br>
+    ToDo: <input type="text" id="desc" required><br>
+    Target Date & Time: <input type="datetime-local" id="targetDate" required><br>
+    Status: 
+    <select id="status" disabled>
+      <option value="PENDING">PENDING</option>
+      <option value="IN-PROGRESS">IN-PROGRESS</option>
+      <option value="COMPLETE">COMPLETE</option>
+    </select><br>
+    <input type="submit" value="SUBMIT">
+  </form>
+
+  <br>
+
+  <table id="todoTable">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>ToDo Desc</th>
+        <th>Target Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody id="todoBody">
+      <!-- Existing tasks -->
+    </tbody>
+  </table>
 
   <script>
-    var todoIdCounter = 1; // Initialize To-Do ID counter
+    // Initial data array
+    let todos = [
+      { id: 100, desc: "Read Page 6", targetDate: "2025-07-30 11:35", status: "PENDING" },
+      { id: 7, desc: "Write a document", targetDate: "2025-07-30 12:40", status: "COMPLETE" },
+      { id: 3, desc: "Prepare a Presentation", targetDate: "2025-07-30 01:40", status: "IN-PROGRESS" }
+    ];
 
-    document.getElementById("todoForm").addEventListener("submit", function(event) {
-      event.preventDefault();
+    
+    function getNextId() {
+      return Math.max(...todos.map(t => t.id)) + 1;
+    }
 
-      const desc = document.getElementById("description").value;
-      const target = document.getElementById("targetTime").value;
-      const status = document.getElementById("status").value;
+    
+    function getStatus(targetDate) {
+      let now = new Date();
+      let target = new Date(targetDate);
 
-      const table = document.getElementById("todoTable").getElementsByTagName("tbody")[0];
-      const newRow = table.insertRow();
+      if (target > now) {
+        return "PENDING";
+      } else if (Math.abs(target - now) < 3600000) { // within 1 hour
+        return "IN-PROGRESS";
+      } else {
+        return "COMPLETE";
+      }
+    }
 
-      // Add ID cell
-      newRow.insertCell(0).textContent = todoIdCounter++;
+  
+    function renderTable() {
+      const tbody = document.getElementById("todoBody");
+      tbody.innerHTML = "";
+      todos.forEach(todo => {
+        let row = `<tr>
+          <td>${todo.id}</td>
+          <td>${todo.desc}</td>
+          <td>${todo.targetDate}</td>
+          <td>${todo.status}</td>
+        </tr>`;
+        tbody.innerHTML += row;
+      });
+    }
 
-      newRow.insertCell(1).textContent = desc;
-      newRow.insertCell(2).textContent = new Date(target).toLocaleString();
-      newRow.insertCell(3).textContent = status;
-      datacell.tesxtContent=newDate(date).toLocalDateString();
-      descCell.textContent=desc;
-      targetCell.textContent=newDate(target).toLocalDateString();
-    const statusselect=document.createElement("select");
-    statusSelect.className="status-select";
-    const statues=["pending","in-progress","completed"];
-    statuses.foreach(optionText=>{const option=document.createElement("option");
-        option.value=optionText;
-        option.text=optionText;
-        if(optionText===status) option.selected=true;
-        statusSelect.appendChild(option);
+    document.getElementById("todoForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      let desc = document.getElementById("desc").value;
+      let targetDate = document.getElementById("targetDate").value;
+
+      let newTodo = {
+        id: getNextId(),
+        desc: desc,
+        targetDate: targetDate.replace("T", " "),
+        status: getStatus(targetDate)
+      };
+
+      todos.push(newTodo);
+      renderTable();
+      this.reset();
     });
-    statusCell.appendChild(statusSelect);
-      document.getElementById("todoForm").reset();
-    });
+
+  
+    renderTable();
   </script>
+
 </body>
 </html>
