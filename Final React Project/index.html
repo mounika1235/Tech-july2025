@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Movie Ticket Booking</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root{
+      --accent:#e50914;
+      --muted:#9aa4b2;
+      --glass: rgba(255,255,255,0.03);
+      --bg: linear-gradient(180deg,#071026 0%, #082233 100%);
+    }
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, Arial, sans-serif;background:var(--bg);color:#e6eef6;}
+    #root{min-height:100vh; display:flex; flex-direction:column;}
+    header{padding:18px 28px}
+    header h1{margin:0;font-size:34px}
+    nav a{color:#caaaff;margin-right:12px;text-decoration:none}
+    .hero{margin:18px 20px;padding:36px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));text-align:center}
+    .search-row{margin-top:18px;display:flex;justify-content:center;gap:8px}
+    .search-row input{padding:10px 12px;border-radius:8px;border:0;min-width:360px;background:rgba(255,255,255,0.04);color:inherit}
+    .search-row button{padding:10px 12px;border-radius:8px;border:0;background:var(--accent);color:white;cursor:pointer}
+    .movies{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;padding:20px}
+    .movie-card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.08));border-radius:10px;overflow:hidden;border:1px solid rgba(255,255,255,0.03)}
+    .movie-card img{width:100%;height:320px;object-fit:cover;display:block}
+    .movie-body{padding:12px}
+    .movie-body h3{margin:0 0 6px 0}
+    .movie-body p{margin:0;color:var(--muted);font-size:14px}
+    .movie-body .actions{margin-top:12px;display:flex;gap:8px}
+    .btn{padding:8px 10px;border-radius:8px;border:0;cursor:pointer;font-weight:700}
+    .btn.primary{background:var(--accent);color:#fff}
+    .btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.03);color:var(--muted)}
+    footer{padding:18px;text-align:center;color:var(--muted)}
+  </style>
+</head>
+<body>
+  <div id="root">
+    <header>
+      <h1>Movie Ticket Booking</h1>
+      <nav>
+        <a href="#">Home</a>
+        <a href="#">Movies</a>
+        <a href="#">Contact</a>
+        <a href="#">About</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <h2>Welcome to the Ultimate Movie Booking Experience</h2>
+      <p>Choose your movie, pick your seat, and enjoy!</p>
+
+     
+<div class="search-row" style="align-items:center; gap:10px;">
+  <input id="searchInput" placeholder="Search movies by title or genre..." />
+
+  <!-- Genre dropdown -->
+  <select id="genreSelect" style="padding:10px;border-radius:8px;border:0;background:rgba(255,255,255,0.04);color:inherit;">
+    <option value="">All genres</option>
+    <option value="Thriller">Thriller</option>
+    <option value="Horror">Horror</option>
+    <option value="Drama">Drama</option>
+    <option value="Sci-Fi">Sci-Fi</option>
+  </select>
+
+  <!-- Rating dropdown -->
+  <select id="ratingSelect" style="padding:10px;border-radius:8px;border:0;background:rgba(255,255,255,0.04);color:inherit;">
+    <option value="0">Any rating</option>
+    <option value="4">4.0+</option>
+    <option value="4.5">4.5+</option>
+  </select>
+
+  <button id="searchBtn">Search</button>
+</div>
+
+    <!-- Unified movies grid (all movies in one list) -->
+    <section class="movies" id="moviesList">
+
+      <div class="movie-card" data-title="Phantom Night" data-genre="Thriller">
+      
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSt466ZuNU2E8my8XzSgm0XG7rV0LRp_CmBcg&s" alt="Phantom Night">
+        <div class="movie-body">
+          <h3>Phantom Night</h3>
+          <p>Genre: Thriller • 2h 10m • 4.4 ★</p>
+          <p>A dark, gripping thriller about secrets, lies and one long night.</p>
+          <div class="actions">
+            <button class="btn primary">Book Now</button>
+            <button class="btn ghost">Details</button>
+          </div>
+        </div>
+      </div>
+
+     
+      <div class="movie-card" data-title="Haunted Echoes" data-genre="Horror">
+        <img src="https://m.media-amazon.com/images/M/MV5BMWRhNDFmMTUtMTg2OS00NmMzLWFjOWQtMjRlNmE0MDcwMjk1XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="Haunted Echoes">
+        <div class="movie-body">
+          <h3>Haunted Echoes</h3>
+          <p>Genre: Horror • 1h 50m • 4.0 ★</p>
+          <p>When the abandoned theatre re-opens, strange echoes begin to haunt the town.</p>
+          <div class="actions">
+            <button class="btn primary">Book Now</button>
+            <button class="btn ghost">Details</button>
+          </div>
+        </div>
+      </div>
+
+    
+      <div class="movie-card" data-title="City of Lights" data-genre="Drama">
+        <img src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=1000&q=60" alt="City of Lights">
+        <div class="movie-body">
+          <h3>City of Lights</h3>
+          <p>Genre: Drama • 2h 20m • 4.7 ★</p>
+          <p>A moving story of ambition, music and second chances.</p>
+          <div class="actions">
+            <button class="btn primary">Book Now</button>
+            <button class="btn ghost">Details</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="movie-card" data-title="Space Run" data-genre="Sci-Fi">
+        <img src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1000&q=60" alt="Space Run">
+        <div class="movie-body">
+          <h3>Space Run</h3>
+          <p>Genre: Sci-Fi • 2h 5m • 4.2 ★</p>
+          <p>Fast-paced space chase as colonists fight to survive across the void.</p>
+          <div class="actions">
+            <button class="btn primary">Book Now</button>
+            <button class="btn ghost">Details</button>
+          </div>
+        </div>
+      </div>
+
+     
+      <div class="movie-card" data-title="Movie Title 1" data-genre="Thriller">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRldZDUUDs84FMVJOjuqN5skhuX2ycgwKzs5Q&s" alt="Movie 1">
+        <div class="movie-body">
+          <h3>Re/member</h3>
+          <p>Genre: Thriller • 1h 43m • 4.6 ★</p>
+          <div class="actions">
+            <button class="btn primary">Book Now</button>
+            <button class="btn ghost">Details</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="movie-card" data-title="Movie Title 2" data-genre="Horror">
+        <img src="https://i.ytimg.com/vi/5dW13TlXJuc/maxresdefault.jpg" alt="Movie 2">
+        <div class="movie-body">
+          <h3>PRIMBON</h3>
+          <p>Genre: Horror • 1h 28m • 4.5 ★</p>
+          <div class="actions">
+            <button class="btn primary">Book Now</button>
+            <button class="btn ghost">Details</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="movie-card" data-title="Movie Title 3" data-genre="Drama">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFrZOFGCL4H3EKKE1tXyFnyo99-AHIWTvKNg&s" alt="Movie 3">
+        <div class="movie-body">
+          <h3>Movie Title 3</h3>
+          <p>Genre: Drama</p>
+          <div class="actions">
+            <button class="btn primary">Book Now</button>
+            <button class="btn ghost">Details</button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <footer>
+      <p>© 2025 Movie Booking Inc. All rights reserved.</p>
+    </footer>
+  </div>
+
+ <script>
+  // small search/filter script (works with data-title / data-genre)
+  const searchInput = document.getElementById('searchInput');
+  const searchBtn = document.getElementById('searchBtn');
+  const genreSelect = document.getElementById('genreSelect');
+  const ratingSelect = document.getElementById('ratingSelect');
+  const movieCards = Array.from(document.querySelectorAll('.movie-card'));
+
+  function runFilter() {
+    const q = (searchInput.value || '').trim().toLowerCase();
+    const selectedGenre = (genreSelect.value || '').toLowerCase();
+    const minRating = Number(ratingSelect.value || 0);
+
+    movieCards.forEach(card => {
+      const title = (card.dataset.title || '').toLowerCase();
+      const genre = (card.dataset.genre || '').toLowerCase();
+      // attempt to parse rating from the visible p text: "Genre: X • 2h • 4.4 ★"
+      const infoText = (card.querySelector('.movie-body p')?.textContent || '');
+      const ratingMatch = infoText.match(/([\d.]+)\s*★/);
+      const rating = ratingMatch ? Number(ratingMatch[1]) : 0;
+
+      let match = true;
+      if (q && !(title.includes(q) || genre.includes(q))) match = false;
+      if (selectedGenre && genre !== selectedGenre) match = false;
+      if (minRating && rating < minRating) match = false;
+
+      card.style.display = match ? '' : 'none';
+    });
+  }
+
+  // events
+  searchInput.addEventListener('input', runFilter);
+  searchBtn.addEventListener('click', runFilter);
+  genreSelect.addEventListener('change', runFilter);
+  ratingSelect.addEventListener('change', runFilter);
+
+  // initial run so page respects an initial empty query
+  runFilter();
+</script>
+
+</body>
+</html>
