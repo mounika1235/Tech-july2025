@@ -1,15 +1,15 @@
 import React from 'react';
 import { RouterProvider, createBrowserRouter, createRoutesFromElements, Route } from 'react-router';
-import MovieList from './components/MovieList';
-import BookingForm from './components/BookingForm';
-import Navbar from './components/Navbar';
+import movielist from './components/movielist';
+import bookingform from './components/bookingform';
+import navbar from './components/navbar';
 import './styles/App.css';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Navbar />}>
-      <Route index element={<MovieList />} />
-      <Route path="book/:movieId" element={<BookingForm />} />
+    <Route path="/" element={<navbar />}>
+      <Route index element={<movielist />} />
+      <Route path="book/:movieId" element={<bookingform />} />
     </Route>
   )
 );
@@ -23,3 +23,4 @@ function App() {
 }
 
 export default App;
+
