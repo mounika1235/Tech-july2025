@@ -1,0 +1,146 @@
+-- recreate database
+DROP DATABASE IF EXISTS moviedb;
+CREATE DATABASE moviedb;
+USE moviedb;
+
+-- allow updates without safe mode (if needed)
+SET SQL_SAFE_UPDATES = 0;
+
+-- ---------- Movie reviews (new values) ----------
+-- clear if needed
+TRUNCATE TABLE IF EXISTS movie_reviews;
+
+INSERT INTO movie_reviews (movie_id, user_id, rating, comment, createdAt) VALUES
+-- Reviews for "Midnight Runner" (movie_id 1)
+(1, 2, 5, 'Edge-of-your-seat thrills and great choreography. Loved it!', NOW()),
+(1, 3, 4, 'Very entertaining, pacing a bit fast but what a ride!', NOW()),
+-- Reviews for "Starlight Sonata" (movie_id 4)
+(4, 1, 5, 'Beautiful, emotional, and musically superb — a modern classic.', NOW()),
+(4, 5, 5, 'Brought tears to my eyes, exceptional performances.', NOW()),
+-- Reviews for "The Last Harbor" (movie_id 7)
+(7, 2, 4, 'Strong drama, believable characters and solid cinematography.', NOW()),
+(7, 3, 4, 'Good story but slow near the middle.', NOW()),
+-- Reviews for "Neon City" (movie_id 10)
+(10, 4, 3, 'Visually great but narrative felt thin.', NOW()),
+(10, 5, 4, 'Cool aesthetics and decent acting.', NOW());
+
+SELECT * FROM movie_reviews;
+
+-- ---------- Movies (new values) ----------
+-- delete existing if necessary, but be careful in prod
+-- DELETE FROM movies; ALTER TABLE movies AUTO_INCREMENT = 1;
+
+INSERT INTO movies (title, language, genre, duration, description, posterUrl, trailerUrl) VALUES
+('Midnight Runner', 'English', 'Action,Thriller', 118, 'A former detective races through the city to stop a planned attack while confronting his past.', 'https://example.com/posters/midnight_runner.jpg', 'https://www.youtube.com/embed/sample_trailer_midnight'),
+('Blue Orchid', 'English', 'Romance,Drama', 125, 'Two strangers meet on a cross-country train and end up changing each other''s lives forever.', 'https://example.com/posters/blue_orchid.jpg', 'https://www.youtube.com/embed/sample_trailer_blueorchid'),
+('Echoes of Time', 'English', 'Sci-Fi,Drama', 140, 'Scientists discover a way to listen to echoes from the future — consequences are unexpected.', 'https://example.com/posters/echoes_of_time.jpg', 'https://www.youtube.com/embed/sample_trailer_echoes'),
+('Starlight Sonata', 'English', 'Drama,Music', 132, 'A gifted pianist struggles with fame, love, and the cost of genius.', 'https://example.com/posters/starlight_sonata.jpg', 'https://www.youtube.com/embed/sample_trailer_starlight'),
+('Golden Fields', 'Hindi', 'Drama,Family', 145, 'A rural farming family fights to save its land and legacy against corporate interests.', 'https://example.com/posters/golden_fields.jpg', 'https://www.youtube.com/embed/sample_trailer_golden'),
+('Shadow Protocol', 'English', 'Action,Sci-Fi', 110, 'A covert team must stop a rogue AI using guerrilla tactics across major cities.', 'https://example.com/posters/shadow_protocol.jpg', 'https://www.youtube.com/embed/sample_trailer_shadow'),
+('The Last Harbor', 'English', 'Drama,Thriller', 128, 'A small coastal town harbors secrets that unravel when a stranger arrives.', 'https://example.com/posters/last_harbor.jpg', 'https://www.youtube.com/embed/sample_trailer_harbor'),
+('Whispering Pines', 'English', 'Horror,Mystery', 100, 'Visitors to an isolated lodge begin to experience strange whispers and disappearances.', 'https://example.com/posters/whispering_pines.jpg', 'https://www.youtube.com/embed/sample_trailer_whisper'),
+('Summer & Salt', 'Spanish', 'Romance,Comedy', 95, 'A light-hearted romance set in a seaside village during one unforgettable summer.', 'https://example.com/posters/summer_salt.jpg', 'https://www.youtube.com/embed/sample_trailer_summersalt'),
+('Neon City', 'English', 'Sci-Fi,Action', 118, 'A neon-lit metropolis where hackers and street racers battle corporate overlords.', 'https://example.com/posters/neon_city.jpg', 'https://www.youtube.com/embed/sample_trailer_neon');
+
+SELECT * FROM movies;
+
+-- ---------- Payments & Refunds (new sample refunds) ----------
+-- (Assumes payments table is present)
+SELECT * FROM payments;
+
+TRUNCATE TABLE IF EXISTS refunds;
+
+INSERT INTO refunds (payment_id, booking_id, user_id, amount, status, refundTxnId, createdAt, processedAt) VALUES
+(101, 201, 2, 500.00, 'SUCCESS', 'ref_A1001', NOW(), NOW()),
+(102, 202, 3, 250.50, 'SUCCESS', 'ref_A1002', NOW(), NOW()),
+(103, 203, 4, 150.00, 'INITIATED', 'ref_A1003', NOW(), NULL);
+
+SELECT * FROM refunds;
+
+-- ---------- Screens ----------
+TRUNCATE TABLE IF EXISTS screens;
+
+INSERT INTO screens (name, description, theater_id) VALUES
+('Grand Screen 1', 'Main premium auditorium with Dolby Atmos', 1),
+('Silver Screen', 'Standard auditorium with 2D/3D support', 2),
+('Platinum IMAX', 'Large-format IMAX auditorium with premium seating', 1);
+
+SELECT * FROM screens;
+
+-- ---------- Seat Templates ----------
+TRUNCATE TABLE IF EXISTS seat_templates;
+
+INSERT INTO seat_templates (name, rows_no, cols, screen_id) VALUES
+('Premium Layout', 8, 20, 1),
+('Standard Layout', 15, 18, 2),
+('IMAX Layout', 12, 30, 3);
+
+SELECT * FROM seat_templates;
+
+-- ---------- Shows (new values mapping to movies above) ----------
+TRUNCATE TABLE IF EXISTS shows;
+
+-- show ids will be auto-created; using explicit values as examples
+INSERT INTO shows (movie_id, screen_id, seat_template_id, showTime, totalSeats) VALUES
+(1, 1, 1, '2025-12-01 19:30:00', 160),
+(2, 2, 2, '2025-12-01 17:00:00', 270),
+(3, 3, 3, '2025-12-02 20:45:00', 360),
+(4, 1, 1, '2025-12-02 14:00:00', 160),
+(5, 2, 2, '2025-12-03 18:15:00', 270),
+(6, 1, 1, '2025-12-03 21:00:00', 160),
+(7, 3, 3, '2025-12-04 16:30:00', 360),
+(8, 2, 2, '2025-12-04 22:00:00', 270),
+(9, 1, 1, '2025-12-05 13:00:00', 160),
+(10, 3, 3, '2025-12-05 20:00:00', 360);
+
+SELECT * FROM shows;
+
+-- ---------- Template seats (detailed seat layout/prices) ----------
+TRUNCATE TABLE IF EXISTS template_seats;
+
+-- Template 1 (Premium Layout) - few sample seats
+INSERT INTO template_seats (rowLabel, col, seatCode, seatType, price, seat_template_id) VALUES
+('A', 1 , 'A1', 'VIP', 450.00, 1),
+('A', 2 , 'A2', 'VIP', 450.00, 1),
+('B', 1 , 'B1', 'REGULAR', 300.00, 1),
+('B', 2 , 'B2', 'REGULAR', 300.00, 1),
+('C', 1 , 'C1', 'REGULAR', 300.00, 1);
+
+-- Template 2 (Standard Layout)
+INSERT INTO template_seats (rowLabel, col, seatCode, seatType, price, seat_template_id) VALUES
+('A', 1 , 'A1', 'REGULAR', 200.00, 2),
+('A', 2 , 'A2', 'REGULAR', 200.00, 2),
+('B', 1 , 'B1', 'REGULAR', 200.00, 2),
+('B', 2 , 'B2', 'REGULAR', 200.00, 2);
+
+-- Template 3 (IMAX Layout)
+INSERT INTO template_seats (rowLabel, col, seatCode, seatType, price, seat_template_id) VALUES
+('A', 1 , 'A1', 'VIP', 500.00, 3),
+('A', 2 , 'A2', 'VIP', 500.00, 3),
+('B', 1 , 'B1', 'REGULAR', 350.00, 3),
+('B', 2 , 'B2', 'REGULAR', 350.00, 3);
+
+SELECT * FROM template_seats;
+
+-- ---------- Theaters ----------
+TRUNCATE TABLE IF EXISTS theaters;
+
+INSERT INTO theaters (name, city, address) VALUES
+('Galaxy Cinemas', 'Hyderabad', '12 Film Street, Hyderabad'),
+('Cityplex Mall', 'Bengaluru', '45 Central Ave, Bengaluru'),
+('Ocean View Cinemas', 'Chennai', '8 Coastal Road, Chennai');
+
+SELECT * FROM theaters;
+
+-- ---------- Users - adding sample admin role updates ----------
+-- (Assumes users table exists with usernames 'admin_01' etc.)
+UPDATE users SET role = 'ADMIN' WHERE username = 'admin_01';
+UPDATE users SET role = 'ADMIN' WHERE username = 'admin_02';
+
+SELECT * FROM users;
+
+-- ---------- Bookings / Booking seats placeholders ----------
+SELECT * FROM bookings;
+SELECT * FROM booking_seats;
+
+-- End of script
