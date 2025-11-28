@@ -1,0 +1,31 @@
+{
+  "name": "spring-boot-rest-api-project",
+  "version": "1.0.0",
+  "description": "spring boot",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mounika1235/REACT-TECH-july-2025.git"
+  },
+  "keywords": [
+    "rest",
+    "api"
+  ],
+  "author": "mounika1235",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mounika1235/REACT-TECH-july-2025/issues"
+  },
+  "homepage": "https://github.com/mounika1235/REACT-TECH-july-2025#readme",
+  "devDependencies": {
+    "parcel": "^2.16.1"
+  },
+  "dependencies": {
+    "install": "^0.13.0",
+    "npm": "^11.6.4",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  }
+}
